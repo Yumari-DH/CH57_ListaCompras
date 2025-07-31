@@ -14,8 +14,16 @@ const tablaListaCompras = document.getElementById("tablaListaCompras");
 //si lo hacemos con document y alguien agrega otra tabla va a haber 2 tbody de las 2tablas, es mejor especificarlo
 const cuerpoTabla = tablaListaCompras.getElementsByTagName("tbody").item(0); //item(0) es para que me traiga el primero que encuentre xq GetEle..Tag me da un html collection, aunque solo tenga 1 hay que especificarlo
 
+//contadores de productos
+const contadorProductos = document.getElementById("contadorProductos");
+const productosTotal = document.getElementById("productosTotal");
+const precioTotal = document.getElementById("precioTotal");
+
 //contador
 let cont = 0;
+let totalEnProductos = 0;
+let costoTotal = 0;
+
 
 
 
@@ -102,10 +110,20 @@ btnAgregar.addEventListener("click", function (event) {
 
         cuerpoTabla.insertAdjacentHTML("beforeend", row);
 
+        //parte del resumen 
+        contadorProductos.innerText = cont;
+        totalEnProductos += Number(txtNumber.value);
+        productosTotal.innerText = totalEnProductos;
+        costoTotal += precio * Number(txtNumber.value);
+
+        //costoTotal.toFixed(2) //forma fácil
+        precioTotal.innerText = new Intl.NumberFormat("es-MX",
+            { style: "currency", currency: "MXN" }).format(costoTotal); //esta es la forma complicada pero mejor (aparece , de miles)
+
         //limpiar los campos
         txtName.value = "";
         txtNumber.value = "";
-        
+
         txtName.focus(); //manda el foco al campo de nombre cuando ya se limpiaron los campos
     }
 
