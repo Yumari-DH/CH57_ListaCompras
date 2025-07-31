@@ -28,6 +28,13 @@ function validarCantidad() {
     return true; //si pasa las 3 validaciones regresa true
 }
 
+// get precio
+function getPrecio(){
+    return Math.round(Math.random() * 10000) /100;
+}
+
+
+
 
 //Validar la información
 btnAgregar.addEventListener("click", function (event) {
