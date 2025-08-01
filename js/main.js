@@ -153,3 +153,80 @@ btnAgregar.addEventListener("click", function (event) {
 
 
 }); //btnAgregar
+
+
+//paso 7: Mostrar info almacenada cuando se carga la pag
+window.addEventListener("load", function(event){
+    event.preventDefault();
+
+    //si datos tiene algo guardado entra al if
+    if(this.localStorage.getItem("datos") != null){
+        datos = JSON.parse(this.localStorage.getItem("datos"));
+        datos.forEach( (dato) => {
+            let row = `<tr>
+                <td>${dato.cont}</td>
+                <td>${dato.nombre}</td>
+                <td>${dato.cantidad}</td>
+                <td>${dato.precio}</td>
+            </tr>`;
+           cuerpoTabla.insertAdjacentHTML("beforeend", row); 
+        }); //for each
+    }// datos != null
+
+    if(this.localStorage.getItem("resumen") != null){
+        let resumen = JSON.parse(this.localStorage.getItem("resumen"));
+        costoTotal = resumen.costoTotal;
+        totalEnProductos = resumen.totalEnProductos;
+        cont = resumen.cont;
+    } //resumen != null
+
+    contadorProductos.innerText = cont;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText = new Intl.NumberFormat("es-MX",
+            { style: "currency", currency: "MXN" }).format(costoTotal);
+
+    //antes de mostrar cualquier cosa hay que leerlo
+}) //Window load
+
+
+// limpiar boton
+//1. eliminar el localStorage
+//2. limpiar la tabla
+//3. limpiar los campos
+//4. limpiar bordes rojos
+//5. limpiar alerts
+//6. limpiar tablita del resumen
+
+btnClear.addEventListener("click", function(event){
+    event.preventDefault();
+    //1. eliminar localStorage
+    localStorage.removeItem("datos"); //remove es p/eliminar de uno x uno
+    localStorage.removeItem("resumen"); //con clear se elimina todo
+
+    //2. limpiar la tabla
+    cuerpoTabla.innerHTML = "";
+
+    //3. limpiar campos
+    txtName.value = "";
+    txtNumber.value = "";
+    
+    //4. limpiar bordes rojos
+    txtName.style.border = "";
+    txtNumber.style.border = "";
+
+    //5. limpiar alerts
+    alertValidacionesTexto.innerHTML ="";
+    alertValidaciones.style.display = "none";
+
+    //6.Limpiar tablita de resumen
+    cont = 0;
+    totalEnProductos = 0;
+    costoTotal = 0;
+    contadorProductos.innerText = cont;
+    productosTotal.innerText = totalEnProductos;
+    precioTotal.innerText = new Intl.NumberFormat("es-MX",
+            { style: "currency", currency: "MXN" }).format(costoTotal);
+    
+    //también hay que borrar el arreglo datos porque aunque se borre el localStorage, datos sigue teniendo cosas adentros
+    datos = new Array();
+})
