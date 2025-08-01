@@ -24,7 +24,8 @@ let cont = 0;
 let totalEnProductos = 0;
 let costoTotal = 0;
 
-
+//definir el arreglo para guardar info tabla
+let datos = new Array(); //también se puede así: let datos = [];
 
 
 
@@ -119,6 +120,29 @@ btnAgregar.addEventListener("click", function (event) {
         //costoTotal.toFixed(2) //forma fácil
         precioTotal.innerText = new Intl.NumberFormat("es-MX",
             { style: "currency", currency: "MXN" }).format(costoTotal); //esta es la forma complicada pero mejor (aparece , de miles)
+        
+
+        //creamos objeto de resumen para luego hacerlo string
+        let resumen = {
+                "cont" : cont,
+                "totalEnProductos" : totalEnProductos,
+                "costoTotal" : costoTotal
+        };
+        //guardar el objeto en el localstorage (solo guarda strings)
+        localStorage.setItem("resumen", JSON.stringify(resumen));
+
+        //Para guardar los datos de la tabla lo hacemos en un array
+        let elemento = {
+            "cont" : cont,
+            "nombre" : txtName.value,
+            "cantidad" : txtNumber.value,
+            "precio" : precio
+        };
+        //agregamos el objeto al array
+        datos.push(elemento); //add elementos al final
+        //ahora si lo guardamos en el localStorage
+        localStorage.setItem("datos",JSON.stringify(datos));
+
 
         //limpiar los campos
         txtName.value = "";
